@@ -81,7 +81,7 @@ storage:
             --after lldap-image-pull.service \
             --name lldap > /etc/systemd/system/lldap.service
           systemctl daemon-reload
-          systemctl enable lldap.service.service
+          systemctl enable lldap.service
           echo "lldap service installed..."
 systemd:
   units:
