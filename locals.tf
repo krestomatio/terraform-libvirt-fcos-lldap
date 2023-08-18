@@ -15,7 +15,7 @@ locals {
       cert_folder_path="${local.data_volume_path}/${local.ssl_path}"
       cert_path="$$${cert_folder_path}/fullchain.pem"
       key_path="$$${cert_folder_path}/privkey.pem"
-      key_path="0"
+      proxy_uid="0"
       proxy_gid="0"
       source_cert_folder_path="/etc/letsencrypt/live/${var.external_fqdn}"
       source_cert_path="$$${source_cert_folder_path}/fullchain.pem"
@@ -29,7 +29,7 @@ locals {
       # key
       cp -f "$$${source_key_path}" "$$${key_path}"
       # owner
-      chown $$${key_path}:$$${proxy_gid} "$$${cert_folder_path}" "$$${cert_path}" "$$${key_path}"
+      chown $$${proxy_uid}:$$${proxy_gid} "$$${cert_folder_path}" "$$${cert_path}" "$$${key_path}"
       # permissions
       chmod 0600 "$$${cert_path}" "$$${key_path}"
 
