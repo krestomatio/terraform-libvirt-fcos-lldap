@@ -55,8 +55,8 @@ storage:
             -e LLDAP_LDAP_BASE_DN='${var.ldap_base_dn}' \
             %{~if local.ssl~}
             -e LLDAP_LDAPS_OPTIONS__ENABLED='true' \
-            -e LLDAP_LDAPS_OPTIONS__CERT_FILE='${local.ssl_path}/fullchain.pem' \
-            -e LLDAP_LDAPS_OPTIONS__KEY_FILE='${local.ssl_path}/privkey.pem' \
+            -e LLDAP_LDAPS_OPTIONS__CERT_FILE='/data/${local.ssl_path}/fullchain.pem' \
+            -e LLDAP_LDAPS_OPTIONS__KEY_FILE='/data/${local.ssl_path}/privkey.pem' \
             %{~endif~}
             %{~if var.smtp_options != null~}
             -e LLDAP_SMTP_OPTIONS__ENABLE_PASSWORD_RESET='true' \
@@ -69,6 +69,7 @@ storage:
             -e LLDAP_SMTP_OPTIONS__TLS_REQUIRED='${var.smtp_options.tls}' \
             -e LLDAP_SMTP_OPTIONS__SMTP_ENCRYPTION='${var.smtp_options.encryption}' \
             %{~endif~}
+            -e LLDAP_HTTP_URL='${local.ssl ? "https" : "http"}://${var.external_fqdn}'
             -p ${local.lldap_port}:${local.lldap_port} \
             -p 17170:17170 \
             --volume /etc/localtime:/etc/localtime:ro \
