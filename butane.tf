@@ -76,6 +76,7 @@ storage:
             -e LLDAP_SMTP_OPTIONS__SMTP_ENCRYPTION='${var.smtp_options.encryption}' \
             %{~endif~}
             -e LLDAP_HTTP_URL='${local.ssl ? "https" : "http"}://${var.external_fqdn}' \
+            -e ${local.ssl ? "LLDAP_LDAPS_OPTIONS__PORT" : "LLDAP_LDAP_PORT"}='${local.lldap_port}' \
             -p ${local.lldap_port}:${local.lldap_port} \
             -p 17170:17170 \
             --volume /etc/localtime:/etc/localtime:ro \
