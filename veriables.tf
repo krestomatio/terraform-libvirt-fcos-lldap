@@ -80,7 +80,7 @@ variable "port_ssl" {
   default     = 6360
 }
 
-variable "sources" {
+variable "cidr_sources" {
   type        = list(string)
   description = "Cidr of sources allowed in firewall to lldap port"
   default     = []

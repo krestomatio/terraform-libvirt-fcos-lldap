@@ -43,6 +43,7 @@ The following are the dependencies to create the VM with this module:
 | <a name="input_butane_snippets_additional"></a> [butane\_snippets\_additional](#input\_butane\_snippets\_additional) | Additional butane snippets | `list(string)` | `[]` | no |
 | <a name="input_certbot"></a> [certbot](#input\_certbot) | Certbot config | <pre>object(<br>    {<br>      agree_tos    = bool<br>      staging      = optional(bool)<br>      email        = string<br>      http_01_port = optional(number)<br>    }<br>  )</pre> | `null` | no |
 | <a name="input_cidr_ip_address"></a> [cidr\_ip\_address](#input\_cidr\_ip\_address) | CIDR IP Address. Ex: 192.168.1.101/24 | `string` | `null` | no |
+| <a name="input_cidr_sources"></a> [cidr\_sources](#input\_cidr\_sources) | Cidr of sources allowed in firewall to lldap port | `list(string)` | `[]` | no |
 | <a name="input_cpu_mode"></a> [cpu\_mode](#input\_cpu\_mode) | Libvirt default cpu mode for VMs | `string` | `null` | no |
 | <a name="input_cpus_limit"></a> [cpus\_limit](#input\_cpus\_limit) | Number of CPUs to limit the container | `number` | `0` | no |
 | <a name="input_data_volume_pool"></a> [data\_volume\_pool](#input\_data\_volume\_pool) | Node default data volume pool | `string` | `null` | no |
@@ -77,7 +78,6 @@ The following are the dependencies to create the VM with this module:
 | <a name="input_root_volume_pool"></a> [root\_volume\_pool](#input\_root\_volume\_pool) | Node default root volume pool | `string` | `null` | no |
 | <a name="input_root_volume_size"></a> [root\_volume\_size](#input\_root\_volume\_size) | Node default root volume size in bytes | `number` | `null` | no |
 | <a name="input_smtp_options"></a> [smtp\_options](#input\_smtp\_options) | Lldap options to configure SMTP parameters, to send password reset emails. | <pre>object(<br>    {<br>      server     = string<br>      from       = string<br>      to         = string<br>      user       = string<br>      password   = string<br>      port       = optional(number, 587)<br>      tls        = optional(bool, true)<br>      encryption = optional(bool, true)<br>    }<br>  )</pre> | `null` | no |
-| <a name="input_sources"></a> [sources](#input\_sources) | Cidr of sources allowed in firewall to lldap port | `list(string)` | `[]` | no |
 | <a name="input_ssh_authorized_key"></a> [ssh\_authorized\_key](#input\_ssh\_authorized\_key) | Authorized ssh key for core user | `string` | n/a | yes |
 | <a name="input_sync_time_with_host"></a> [sync\_time\_with\_host](#input\_sync\_time\_with\_host) | Sync guest time with the kvm host | `bool` | `null` | no |
 | <a name="input_timezone"></a> [timezone](#input\_timezone) | Timezone for VMs as listed by `timedatectl list-timezones` | `string` | `null` | no |

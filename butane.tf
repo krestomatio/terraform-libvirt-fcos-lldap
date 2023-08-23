@@ -29,14 +29,15 @@ storage:
             echo "Firewalld enabled..."
           fi
           # Add firewalld rules
-          echo "Adding firewalld rules..."
-          firewall-cmd --zone=public --permanent \
-          %{~for source in var.sources~}
-            --add-source=${source} \
+          echo "Adding firewalld rules to lldap zone..."
+          firewall-cmd --new-zone=lldap --permanent
+          firewall-cmd --reload
+          firewall-cmd --zone=lldap --permanent --add-port=${local.lldap_port}/tcp
+          %{~for cidr_source in var.cidr_sources~}
+          firewall-cmd --zone=lldap --permanent --add-source=${cidr_source}
           %{~endfor~}
-            --add-port=${local.lldap_port}/tcp
+          echo "Adding firewalld rules to public zone..."
           firewall-cmd --zone=public --permanent --add-port=17170/tcp
-          # firewall-cmd --zone=public --add-masquerade
           firewall-cmd --reload
           echo "Firewalld rules added..."
 
