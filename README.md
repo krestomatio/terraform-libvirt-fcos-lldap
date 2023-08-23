@@ -53,6 +53,7 @@ The following are the dependencies to create the VM with this module:
 | <a name="input_fqdn"></a> [fqdn](#input\_fqdn) | Node FQDN | `string` | n/a | yes |
 | <a name="input_ignition_pool"></a> [ignition\_pool](#input\_ignition\_pool) | Default ignition files pool | `string` | `null` | no |
 | <a name="input_image"></a> [image](#input\_image) | Lldap container image | <pre>object(<br>    {<br>      name    = optional(string, "docker.io/nitnelave/lldap")<br>      version = optional(string, "latest")<br>    }<br>  )</pre> | <pre>{<br>  "name": "docker.io/nitnelave/lldap",<br>  "version": "stable"<br>}</pre> | no |
+| <a name="input_interface_name"></a> [interface\_name](#input\_interface\_name) | Network interface name | `string` | `null` | no |
 | <a name="input_jwt_secret"></a> [jwt\_secret](#input\_jwt\_secret) | Lldap JWT secret | `string` | n/a | yes |
 | <a name="input_keymap"></a> [keymap](#input\_keymap) | Keymap | `string` | `null` | no |
 | <a name="input_ldap_base_dn"></a> [ldap\_base\_dn](#input\_ldap\_base\_dn) | Lldap base distinguished name (DN) | `string` | n/a | yes |
@@ -60,6 +61,7 @@ The following are the dependencies to create the VM with this module:
 | <a name="input_log_volume_pool"></a> [log\_volume\_pool](#input\_log\_volume\_pool) | Node default log volume pool | `string` | `null` | no |
 | <a name="input_log_volume_size"></a> [log\_volume\_size](#input\_log\_volume\_size) | Node default log volume size in bytes | `number` | `null` | no |
 | <a name="input_mac"></a> [mac](#input\_mac) | Mac address | `string` | `null` | no |
+| <a name="input_machine"></a> [machine](#input\_machine) | The machine type, you normally won't need to set this unless you are running on a platform that defaults to the wrong machine type for your template | `string` | `null` | no |
 | <a name="input_memory"></a> [memory](#input\_memory) | Node default memory in MiB | `number` | `512` | no |
 | <a name="input_memory_limit"></a> [memory\_limit](#input\_memory\_limit) | Amount of memory to limit the container | `string` | `""` | no |
 | <a name="input_nameservers"></a> [nameservers](#input\_nameservers) | List of nameservers for VMs | `list(string)` | `null` | no |
@@ -67,13 +69,17 @@ The following are the dependencies to create the VM with this module:
 | <a name="input_network_id"></a> [network\_id](#input\_network\_id) | Libvirt default network id for VMs | `string` | `null` | no |
 | <a name="input_network_name"></a> [network\_name](#input\_network\_name) | Libvirt default network name for VMs | `string` | `null` | no |
 | <a name="input_periodic_updates"></a> [periodic\_updates](#input\_periodic\_updates) | Only reboot for updates during certain timeframes<br>{<br>  time\_zone = "localtime"<br>  windows = [<br>    {<br>      days           = ["Sat"],<br>      start\_time     = "23:30",<br>      length\_minutes = "60"<br>    },<br>    {<br>      days           = ["Sun"],<br>      start\_time     = "00:30",<br>      length\_minutes = "60"<br>    }<br>  ]<br>} | <pre>object(<br>    {<br>      time_zone = optional(string, "")<br>      windows = list(<br>        object(<br>          {<br>            days           = list(string)<br>            start_time     = string<br>            length_minutes = string<br>          }<br>        )<br>      )<br>    }<br>  )</pre> | `null` | no |
+| <a name="input_port"></a> [port](#input\_port) | Ldap port | `number` | `3890` | no |
+| <a name="input_port_ssl"></a> [port\_ssl](#input\_port\_ssl) | Ldaps port | `number` | `6360` | no |
 | <a name="input_rollout_wariness"></a> [rollout\_wariness](#input\_rollout\_wariness) | Wariness to update, 1.0 (very cautious) to 0.0 (very eager) | `string` | `null` | no |
 | <a name="input_root_base_volume_name"></a> [root\_base\_volume\_name](#input\_root\_base\_volume\_name) | Node default base root volume name | `string` | n/a | yes |
 | <a name="input_root_base_volume_pool"></a> [root\_base\_volume\_pool](#input\_root\_base\_volume\_pool) | Node default base root volume pool | `string` | `null` | no |
 | <a name="input_root_volume_pool"></a> [root\_volume\_pool](#input\_root\_volume\_pool) | Node default root volume pool | `string` | `null` | no |
 | <a name="input_root_volume_size"></a> [root\_volume\_size](#input\_root\_volume\_size) | Node default root volume size in bytes | `number` | `null` | no |
 | <a name="input_smtp_options"></a> [smtp\_options](#input\_smtp\_options) | Lldap options to configure SMTP parameters, to send password reset emails. | <pre>object(<br>    {<br>      server     = string<br>      from       = string<br>      to         = string<br>      user       = string<br>      password   = string<br>      port       = optional(number, 587)<br>      tls        = optional(bool, true)<br>      encryption = optional(bool, true)<br>    }<br>  )</pre> | `null` | no |
+| <a name="input_sources"></a> [sources](#input\_sources) | Cidr of sources allowed in firewall to lldap port | `list(string)` | `[]` | no |
 | <a name="input_ssh_authorized_key"></a> [ssh\_authorized\_key](#input\_ssh\_authorized\_key) | Authorized ssh key for core user | `string` | n/a | yes |
+| <a name="input_sync_time_with_host"></a> [sync\_time\_with\_host](#input\_sync\_time\_with\_host) | Sync guest time with the kvm host | `bool` | `null` | no |
 | <a name="input_timezone"></a> [timezone](#input\_timezone) | Timezone for VMs as listed by `timedatectl list-timezones` | `string` | `null` | no |
 | <a name="input_vcpu"></a> [vcpu](#input\_vcpu) | Node default vcpu count | `number` | `null` | no |
 | <a name="input_wait_for_lease"></a> [wait\_for\_lease](#input\_wait\_for\_lease) | Wait for network lease | `bool` | `null` | no |
