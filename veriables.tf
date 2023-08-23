@@ -71,13 +71,7 @@ variable "smtp_options" {
 variable "port" {
   type        = number
   description = "Ldap port"
-  default     = 3890
-}
-
-variable "port_ssl" {
-  type        = number
-  description = "Ldaps port"
-  default     = 6360
+  default     = null
 }
 
 variable "cidr_sources" {

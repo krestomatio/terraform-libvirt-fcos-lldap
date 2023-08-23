@@ -4,7 +4,7 @@ locals {
   lldap_image          = "${var.image.name}:${var.image.version}"
   ssl                  = var.certbot != null ? true : false
   ssl_path             = "/etc/certs/${var.external_fqdn}"
-  lldap_port           = local.ssl ? var.port_ssl : var.port
+  lldap_port           = var.port != null ? var.port : (ssl ? "6360" : "3890")
   post_hook = {
     path    = "/usr/local/bin/lldap-certbot-renew-hook"
     content = <<-TEMPLATE
