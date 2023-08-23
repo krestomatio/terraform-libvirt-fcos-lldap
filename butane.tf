@@ -30,7 +30,11 @@ storage:
           fi
           # Add firewalld rules
           echo "Adding firewalld rules..."
-          firewall-cmd --zone=public --permanent --add-port=${local.lldap_port}/tcp
+          firewall-cmd --zone=public --permanent \
+          %{~for source in var.sources~}
+            --add-source=${source} \
+          %{~endfor~}
+            --add-port=${local.lldap_port}/tcp
           firewall-cmd --zone=public --permanent --add-port=17170/tcp
           # firewall-cmd --zone=public --add-masquerade
           firewall-cmd --reload

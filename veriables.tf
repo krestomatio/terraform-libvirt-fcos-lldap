@@ -68,6 +68,25 @@ variable "smtp_options" {
   default     = null
 }
 
+variable "port" {
+  type        = number
+  description = "Ldap port"
+  default     = 3890
+}
+
+variable "port_ssl" {
+  type        = number
+  description = "Ldaps port"
+  default     = 6360
+}
+
+variable "sources" {
+  type        = list(string)
+  description = "Cidr of sources allowed in firewall to lldap port"
+  default     = []
+  nullable    = false
+}
+
 variable "cpus_limit" {
   type        = number
   description = "Number of CPUs to limit the container"
