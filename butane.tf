@@ -35,7 +35,7 @@ storage:
           firewall-cmd --zone=public --permanent --add-rich-rule='rule family="ipv4" source address="${cidr_source}" port protocol="tcp" port="${local.lldap_port}" accept'
           %{~endfor~}
           %{~else~}
-          firewall-cmd --zone=public --permanent --add-source=${cidr_source}
+          firewall-cmd --zone=public --permanent --add-port=${local.lldap_port}/tcp
           %{~endif~}
           firewall-cmd --zone=public --permanent --add-port=17170/tcp
           # firewall-cmd --zone=public --add-masquerade
