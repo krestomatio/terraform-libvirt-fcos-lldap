@@ -50,6 +50,7 @@ storage:
           podman kill lldap 2>/dev/null || echo
           podman rm lldap 2>/dev/null || echo
           podman create --pull never --rm --restart on-failure --stop-timeout ${local.systemd_stop_timeout} \
+            --network host \
             %{~if var.cpus_limit > 0~}
             --cpus ${var.cpus_limit} \
             %{~endif~}
@@ -77,8 +78,6 @@ storage:
             %{~endif~}
             -e LLDAP_HTTP_URL='${local.ssl ? "https" : "http"}://${var.external_fqdn}' \
             -e ${local.ssl ? "LLDAP_LDAPS_OPTIONS__PORT" : "LLDAP_LDAP_PORT"}='${local.lldap_port}' \
-            -p ${local.lldap_port}:${local.lldap_port} \
-            -p 17170:17170 \
             --volume /etc/localtime:/etc/localtime:ro \
             --volume "${local.data_volume_path}:/data" \
             --name lldap ${local.lldap_image}
