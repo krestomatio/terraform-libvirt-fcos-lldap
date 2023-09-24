@@ -1,6 +1,6 @@
 module "lldap" {
   source  = "krestomatio/fcos/libvirt"
-  version = "0.0.24"
+  version = "0.0.28"
 
   # custom
   butane_snippets_additional = compact(

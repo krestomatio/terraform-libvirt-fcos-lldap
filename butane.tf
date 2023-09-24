@@ -99,6 +99,8 @@ systemd:
         Description="Pull lldap image"
         Wants=network-online.target
         After=network-online.target
+        After=additional-rpms.service
+        Requires=additional-rpms.service
         Before=install-lldap.service
         Before=lldap.service
 
@@ -125,7 +127,8 @@ systemd:
         After=additional-rpms.service
         After=install-certbot.service
         After=lldap-image-pull.service
-        OnSuccess=lldap.service
+        Requires=additional-rpms.service
+        Requires=lldap-image-pull.service
         ConditionPathExists=/usr/local/bin/lldap-installer.sh
         ConditionPathExists=!/var/lib/%N.done
         StartLimitInterval=500
@@ -139,6 +142,7 @@ systemd:
         TimeoutStartSec=300
         ExecStart=/usr/local/bin/lldap-installer.sh
         ExecStart=/bin/touch /var/lib/%N.done
+        ExecStart=/usr/bin/systemctl --no-block reboot
 
         [Install]
         WantedBy=multi-user.target
