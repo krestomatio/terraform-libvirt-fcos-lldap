@@ -88,7 +88,7 @@ storage:
             --after lldap-image-pull.service \
             --name lldap > /etc/systemd/system/lldap.service
           systemctl daemon-reload
-          systemctl enable lldap.service
+          systemctl enable --now lldap.service
           echo "lldap service installed..."
 systemd:
   units:
@@ -142,7 +142,6 @@ systemd:
         TimeoutStartSec=300
         ExecStart=/usr/local/bin/lldap-installer.sh
         ExecStart=/bin/touch /var/lib/%N.done
-        ExecStart=/usr/bin/systemctl --no-block reboot
 
         [Install]
         WantedBy=multi-user.target
