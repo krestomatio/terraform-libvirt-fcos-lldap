@@ -107,9 +107,8 @@ systemd:
         [Service]
         Type=oneshot
         RemainAfterExit=yes
-        Restart=on-failure
-        RestartSec=10
-        TimeoutStartSec=180
+        Restart=no
+        TimeoutStartSec=90
         ExecStart=/usr/bin/podman pull ${local.lldap_image}
 
         [Install]
@@ -131,15 +130,12 @@ systemd:
         Requires=lldap-image-pull.service
         ConditionPathExists=/usr/local/bin/lldap-installer.sh
         ConditionPathExists=!/var/lib/%N.done
-        StartLimitInterval=30
-        StartLimitBurst=3
 
         [Service]
         Type=oneshot
         RemainAfterExit=yes
-        Restart=on-failure
-        RestartSec=5
-        TimeoutStartSec=20
+        Restart=no
+        TimeoutStartSec=90
         ExecStart=/usr/local/bin/lldap-installer.sh
         ExecStart=/bin/touch /var/lib/%N.done
 
