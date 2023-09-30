@@ -37,6 +37,7 @@ module "lldap" {
   data_volume_size      = var.data_volume_size
   data_volume_path      = local.data_volume_path
   backup_volume_pool    = var.backup_volume_pool
+  backup_volume_path    = local.backup_volume_path
   ignition_pool         = var.ignition_pool
   network_bridge        = var.network_bridge
   network_name          = var.network_name

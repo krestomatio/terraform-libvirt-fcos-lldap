@@ -1,5 +1,6 @@
 locals {
   data_volume_path     = "/var/opt/lldap"
+  backup_volume_path   = "/var/mnt/backup"
   systemd_stop_timeout = 30
   lldap_image          = "${var.image.name}:${var.image.version}"
   ssl                  = var.certbot != null ? true : false

@@ -90,6 +90,35 @@ storage:
           systemctl daemon-reload
           systemctl enable --now lldap.service
           echo "lldap service installed..."
+    - path: /usr/local/bin/lldap-backup.sh
+      mode: 0750
+      overwrite: true
+      contents:
+        inline: |
+          #!/bin/bash -e
+
+          DB_PATH="${local.data_volume_path}"
+          DB_FILE_NAME="users.db"
+          DB_FILE="$DB_PATH/$DB_FILE_NAME"
+          BACKUP_PATH="${local.backup_volume_path}"
+          BACKUP_FILE_NAME="users.db"
+          BACKUP_FILE="$BACKUP_PATH/$BACKUP_FILE_NAME"
+          SQLITE_IMAGE=docker.io/keinos/sqlite3:3.42.0
+
+          chcon -t svirt_sandbox_file_t $BACKUP_PATH
+
+          podman run --rm \
+              --user $(id -u):$(id -g) \
+              --volume /etc/localtime:/etc/localtime:ro \
+              --volume "$DB_FILE:$DB_FILE" \
+              --volume "$BACKUP_PATH:$BACKUP_PATH" \
+              --name sqlite $SQLITE_IMAGE sqlite3 "$DB_FILE" ".backup '$BACKUP_FILE'"
+          %{~if var.backup_script_additiona_block != ""~}
+
+          # Additional block
+          ${indent(10, var.backup_script_additiona_block)}
+          %{~endif~}
+
 systemd:
   units:
     - name: lldap-image-pull.service
@@ -141,6 +170,33 @@ systemd:
 
         [Install]
         WantedBy=multi-user.target
+    - name: lldap-backup.service
+      enabled: false
+      contents: |
+        [Unit]
+        Description=Lldap backup task
+        Wants=lldap-backup.timer
+
+        [Service]
+        Type=oneshot
+        ExecStart=/usr/local/bin/lldap-backup.sh
+
+        [Install]
+        WantedBy=multi-user.target
+    - name: lldap-backup.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=Lldap backup task
+        Requires=lldap-backup.service
+
+        [Timer]
+        Unit=lldap-backup.service
+        OnCalendar=${var.backup_task_on_calendar}
+        AccuracySec=1m
+
+        [Install]
+        WantedBy=timers.target
 TEMPLATE
 }
 

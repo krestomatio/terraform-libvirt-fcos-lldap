@@ -94,6 +94,20 @@ variable "memory_limit" {
   nullable    = false
 }
 
+variable "backup_script_additiona_block" {
+  type        = string
+  description = "Additional block to add to backup script"
+  default     = ""
+  nullable    = false
+}
+
+variable "backup_task_on_calendar" {
+  type        = string
+  description = "Backup task on calendar value. See systemd.time(7)"
+  default     = "daily"
+  nullable    = false
+}
+
 # butane custom
 variable "butane_snippets_additional" {
   type        = list(string)
