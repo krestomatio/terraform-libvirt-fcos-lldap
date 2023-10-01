@@ -44,6 +44,8 @@ storage:
 
           # selinux context to data dir
           chcon -Rt svirt_sandbox_file_t ${local.data_volume_path}
+          # selinux context to backup dir
+          chcon -Rt svirt_sandbox_file_t ${local.backup_volume_path}
 
           # install
           echo "Installing lldap service..."
@@ -97,6 +99,7 @@ storage:
         inline: |
           #!/bin/bash -e
 
+          # vars
           DB_PATH="${local.data_volume_path}"
           DB_FILE_NAME="users.db"
           DB_FILE="$DB_PATH/$DB_FILE_NAME"
@@ -105,20 +108,29 @@ storage:
           BACKUP_FILE="$BACKUP_PATH/$BACKUP_FILE_NAME"
           SQLITE_IMAGE=docker.io/keinos/sqlite3:3.42.0
 
-          chcon -t svirt_sandbox_file_t $BACKUP_PATH
+          echo "checking db file exist..."
+          test -f $DB_FILE || { echo "db file: '$DB_FILE' does not exist, exiting..."; exit 0; }
 
-          podman run --rm \
+          # backup
+          echo "creating backup file in '$BACKUP_FILE'..."
+          podman run -t --rm \
               --user $(id -u):$(id -g) \
               --volume /etc/localtime:/etc/localtime:ro \
               --volume "$DB_FILE:$DB_FILE" \
               --volume "$BACKUP_PATH:$BACKUP_PATH" \
               --name sqlite $SQLITE_IMAGE sqlite3 "$DB_FILE" ".backup '$BACKUP_FILE'"
+          # integrity check
+          echo "checking backup file integrity..."
+          podman run -t --rm \
+              --user $(id -u):$(id -g) \
+              --volume /etc/localtime:/etc/localtime:ro \
+              --volume "$BACKUP_FILE:$BACKUP_FILE" \
+              --name sqlite $SQLITE_IMAGE sqlite3 "$BACKUP_FILE" 'pragma integrity_check;'
           %{~if var.backup_script_additiona_block != ""~}
 
           # Additional block
           ${indent(10, var.backup_script_additiona_block)}
           %{~endif~}
-
 systemd:
   units:
     - name: lldap-image-pull.service
@@ -183,7 +195,7 @@ systemd:
 
         [Install]
         WantedBy=multi-user.target
-    - name: lldap-backup.service
+    - name: lldap-backup.timer
       enabled: true
       contents: |
         [Unit]
@@ -194,6 +206,7 @@ systemd:
         Unit=lldap-backup.service
         OnCalendar=${var.backup_task_on_calendar}
         AccuracySec=1m
+        Persistent=true
 
         [Install]
         WantedBy=timers.target

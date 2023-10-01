@@ -38,6 +38,8 @@ The following are the dependencies to create the VM with this module:
 |------|-------------|------|---------|:--------:|
 | <a name="input_additional_rpms"></a> [additional\_rpms](#input\_additional\_rpms) | Additional rpms to install during boot using rpm-ostree, along with any pre or post command | <pre>object(<br>    {<br>      cmd_pre  = optional(list(string), [])<br>      list     = optional(list(string), [])<br>      cmd_post = optional(list(string), [])<br>    }<br>  )</pre> | <pre>{<br>  "cmd_post": [],<br>  "cmd_pre": [],<br>  "list": []<br>}</pre> | no |
 | <a name="input_autostart"></a> [autostart](#input\_autostart) | Autostart with libvirt host | `bool` | `null` | no |
+| <a name="input_backup_script_additiona_block"></a> [backup\_script\_additiona\_block](#input\_backup\_script\_additiona\_block) | Additional block to add to backup script | `string` | `""` | no |
+| <a name="input_backup_task_on_calendar"></a> [backup\_task\_on\_calendar](#input\_backup\_task\_on\_calendar) | Backup task on calendar value. See systemd.time(7) | `string` | `"daily"` | no |
 | <a name="input_backup_volume_pool"></a> [backup\_volume\_pool](#input\_backup\_volume\_pool) | Node default backup volume pool | `string` | `null` | no |
 | <a name="input_backup_volume_size"></a> [backup\_volume\_size](#input\_backup\_volume\_size) | Node default backup volume size in bytes | `number` | `null` | no |
 | <a name="input_butane_snippets_additional"></a> [butane\_snippets\_additional](#input\_butane\_snippets\_additional) | Additional butane snippets | `list(string)` | `[]` | no |
