@@ -200,6 +200,9 @@ systemd:
       contents: |
         [Unit]
         Description=Lldap backup task
+        Wants=network-online.target
+        After=network-online.target
+        After=install-lldap.service
         Requires=lldap-backup.service
 
         [Timer]
