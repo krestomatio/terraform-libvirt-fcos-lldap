@@ -68,7 +68,7 @@ storage:
             -e LLDAP_LDAPS_OPTIONS__KEY_FILE='/data/${local.ssl_path}/privkey.pem' \
             %{~endif~}
             %{~if var.smtp_options != null~}
-            -e LLDAP_SMTP_OPTIONS__ENABLE_PASSWORD_RESET='true' \
+            -e LLDAP_SMTP_OPTIONS__ENABLE_PASSWORD_RESET='${var.smtp_options.reset}' \
             -e LLDAP_SMTP_OPTIONS__FROM='${var.smtp_options.from}' \
             -e LLDAP_SMTP_OPTIONS__TO='${var.smtp_options.to}' \
             -e LLDAP_SMTP_OPTIONS__SERVER='${var.smtp_options.server}' \
@@ -78,6 +78,9 @@ storage:
             -e LLDAP_SMTP_OPTIONS__TLS_REQUIRED='${var.smtp_options.tls}' \
             -e LLDAP_SMTP_OPTIONS__SMTP_ENCRYPTION='${var.smtp_options.encryption}' \
             %{~endif~}
+            %{~for var, value in var.envvars~}
+            -e ${var}='${value}' \
+            %{~endfor~}
             -e LLDAP_HTTP_URL='${local.ssl ? "https" : "http"}://${var.external_fqdn}' \
             -e ${local.ssl ? "LLDAP_LDAPS_OPTIONS__PORT" : "LLDAP_LDAP_PORT"}='${local.lldap_port}' \
             --volume /etc/localtime:/etc/localtime:ro \

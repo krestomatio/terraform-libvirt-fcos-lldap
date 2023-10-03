@@ -61,6 +61,7 @@ variable "smtp_options" {
       port       = optional(number, 587)
       tls        = optional(bool, true)
       encryption = optional(bool, true)
+      reset      = optional(bool, true)
     }
   )
   description = "Lldap options to configure SMTP parameters, to send password reset emails."
@@ -105,6 +106,14 @@ variable "backup_task_on_calendar" {
   type        = string
   description = "Backup task on calendar value. See systemd.time(7)"
   default     = "daily"
+  nullable    = false
+}
+
+variable "envvars" {
+  type        = map(string)
+  sensitive   = true
+  description = "Additional environment variables for lldap"
+  default     = {}
   nullable    = false
 }
 

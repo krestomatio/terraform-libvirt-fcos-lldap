@@ -17,6 +17,9 @@ locals {
   ldap_base_dn   = "dc=example,dc=com"
   cpus_limit     = 0.7
   memory_limit   = "700m"
+  envvars = {
+    LLDAP_SMTP_OPTIONS__ENABLE_PASSWORD_RESET = "false"
+  }
 
   # libvirt
   fqdn               = local.external_fqdn
@@ -128,6 +131,7 @@ module "libvirt_fcos_lldap" {
   ldap_base_dn   = local.ldap_base_dn
   cpus_limit     = local.cpus_limit
   memory_limit   = local.memory_limit
+  envvars        = local.envvars
   # libvirt
   fqdn               = local.fqdn
   cidr_ip_address    = local.cidr_ip_address
