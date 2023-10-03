@@ -60,7 +60,7 @@ variable "smtp_options" {
       password   = string
       port       = optional(number, 587)
       tls        = optional(bool, true)
-      encryption = optional(bool, true)
+      encryption = optional(string, "STARTTLS")
       reset      = optional(bool, true)
     }
   )
