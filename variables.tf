@@ -50,25 +50,6 @@ variable "ldap_base_dn" {
   description = "Lldap base distinguished name (DN)"
 }
 
-variable "smtp_options" {
-  type = object(
-    {
-      server     = string
-      from       = string
-      to         = string
-      user       = string
-      password   = string
-      port       = optional(number, 587)
-      tls        = optional(bool, true)
-      encryption = optional(string, "STARTTLS")
-      reset      = optional(bool, true)
-    }
-  )
-  description = "Lldap options to configure SMTP parameters, to send password reset emails."
-  sensitive   = true
-  default     = null
-}
-
 variable "port" {
   type        = number
   description = "Ldap port"

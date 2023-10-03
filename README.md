@@ -50,6 +50,7 @@ The following are the dependencies to create the VM with this module:
 | <a name="input_cpus_limit"></a> [cpus\_limit](#input\_cpus\_limit) | Number of CPUs to limit the container | `number` | `0` | no |
 | <a name="input_data_volume_pool"></a> [data\_volume\_pool](#input\_data\_volume\_pool) | Node default data volume pool | `string` | `null` | no |
 | <a name="input_data_volume_size"></a> [data\_volume\_size](#input\_data\_volume\_size) | Node default data volume size in bytes | `number` | `null` | no |
+| <a name="input_envvars"></a> [envvars](#input\_envvars) | Additional environment variables for lldap | `map(string)` | `{}` | no |
 | <a name="input_etc_hosts"></a> [etc\_hosts](#input\_etc\_hosts) | /etc/host list | <pre>list(<br>    object(<br>      {<br>        ip       = string<br>        hostname = string<br>        fqdn     = string<br>      }<br>    )<br>  )</pre> | `null` | no |
 | <a name="input_etc_hosts_extra"></a> [etc\_hosts\_extra](#input\_etc\_hosts\_extra) | /etc/host extra block | `string` | `null` | no |
 | <a name="input_external_fqdn"></a> [external\_fqdn](#input\_external\_fqdn) | FQDN to access Lldap | `string` | n/a | yes |
@@ -78,7 +79,6 @@ The following are the dependencies to create the VM with this module:
 | <a name="input_root_base_volume_pool"></a> [root\_base\_volume\_pool](#input\_root\_base\_volume\_pool) | Node default base root volume pool | `string` | `null` | no |
 | <a name="input_root_volume_pool"></a> [root\_volume\_pool](#input\_root\_volume\_pool) | Node default root volume pool | `string` | `null` | no |
 | <a name="input_root_volume_size"></a> [root\_volume\_size](#input\_root\_volume\_size) | Node default root volume size in bytes | `number` | `null` | no |
-| <a name="input_smtp_options"></a> [smtp\_options](#input\_smtp\_options) | Lldap options to configure SMTP parameters, to send password reset emails. | <pre>object(<br>    {<br>      server     = string<br>      from       = string<br>      to         = string<br>      user       = string<br>      password   = string<br>      port       = optional(number, 587)<br>      tls        = optional(bool, true)<br>      encryption = optional(bool, true)<br>    }<br>  )</pre> | `null` | no |
 | <a name="input_ssh_authorized_key"></a> [ssh\_authorized\_key](#input\_ssh\_authorized\_key) | Authorized ssh key for core user | `string` | n/a | yes |
 | <a name="input_sync_time_with_host"></a> [sync\_time\_with\_host](#input\_sync\_time\_with\_host) | Sync guest time with the kvm host | `bool` | `null` | no |
 | <a name="input_timezone"></a> [timezone](#input\_timezone) | Timezone for VMs as listed by `timedatectl list-timezones` | `string` | `null` | no |

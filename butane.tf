@@ -67,17 +67,6 @@ storage:
             -e LLDAP_LDAPS_OPTIONS__CERT_FILE='/data/${local.ssl_path}/fullchain.pem' \
             -e LLDAP_LDAPS_OPTIONS__KEY_FILE='/data/${local.ssl_path}/privkey.pem' \
             %{~endif~}
-            %{~if var.smtp_options != null~}
-            -e LLDAP_SMTP_OPTIONS__ENABLE_PASSWORD_RESET='${var.smtp_options.reset}' \
-            -e LLDAP_SMTP_OPTIONS__FROM='${var.smtp_options.from}' \
-            -e LLDAP_SMTP_OPTIONS__TO='${var.smtp_options.to}' \
-            -e LLDAP_SMTP_OPTIONS__SERVER='${var.smtp_options.server}' \
-            -e LLDAP_SMTP_OPTIONS__PORT='${var.smtp_options.port}' \
-            -e LLDAP_SMTP_OPTIONS__USER='${var.smtp_options.user}' \
-            -e LLDAP_SMTP_OPTIONS__PASSWORD='${var.smtp_options.password}' \
-            -e LLDAP_SMTP_OPTIONS__TLS_REQUIRED='${var.smtp_options.tls}' \
-            -e LLDAP_SMTP_OPTIONS__SMTP_ENCRYPTION='${var.smtp_options.encryption}' \
-            %{~endif~}
             %{~for var, value in var.envvars~}
             -e ${var}='${value}' \
             %{~endfor~}
