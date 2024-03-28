@@ -106,6 +106,7 @@ storage:
           # backup
           echo "creating backup file in '$BACKUP_FILE'..."
           podman run -t --rm \
+              --replace \
               --user $(id -u):$(id -g) \
               --volume /etc/localtime:/etc/localtime:ro \
               --volume "$DB_FILE:$DB_FILE" \
@@ -114,6 +115,7 @@ storage:
           # integrity check
           echo "checking backup file integrity..."
           podman run -t --rm \
+              --replace \
               --user $(id -u):$(id -g) \
               --volume /etc/localtime:/etc/localtime:ro \
               --volume "$BACKUP_FILE:$BACKUP_FILE" \
